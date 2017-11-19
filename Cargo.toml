@@ -1,0 +1,11 @@
+[package]
+name = "iitm-netaccess-cmd"
+version = "0.1.0"
+authors = ["Jithin Jith <j.jith@outlook.com>"]
+
+[dependencies]
+rpassword = "2.0.0"
+reqwest = "0.8.1"
+rand = "0.3.18"
+ipnetwork = "0.12.7"
+pnet = "0.20.0"

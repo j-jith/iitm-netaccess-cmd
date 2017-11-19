@@ -1,0 +1,18 @@
+Allows you to login to https://netaccess.iitm.ac.in and approve (or revoke)
+your machine's internet access at IIT Madras.
+
+Usage:
+    netaccess
+    netaccess (approve | revoke)
+    netaccess revoke <ip address>
+    netaccess -h | --help
+
+Commands:
+    approve             Default command. Authenticates the current machine.
+    revoke <ip address> Revokes the internet access of <ip address> (if you
+                        have previously approved it). Revokes the internet
+                        access of current machine if no <ip address> is
+                        provided.
+
+Options:
+    -h --help           Shows this screen.
