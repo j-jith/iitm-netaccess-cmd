@@ -1,5 +1,5 @@
-netaccess-cmd
-=============
+netaccess
+=========
 
 This command line application allows you to approve (or revoke) your machine's
 internet access at IIT Madras.
@@ -15,7 +15,7 @@ Usage:
     netaccess -h | --help
 
 Commands:
----------
+~~~~~~~~~
 
 +---------------------+-----------------------------------------------------+
 | approve             | Default command. Authenticates the current machine. |
@@ -27,9 +27,9 @@ Commands:
 +---------------------+-----------------------------------------------------+
 
 Options:
---------
+~~~~~~~~
 
-+-----------+-----------------------------+
-| -h --help | Shows this screen.          |
-+-----------+-----------------------------+
++-----------+-------------------------+
+| -h --help | Shows the help message. |
++-----------+-------------------------+
 
