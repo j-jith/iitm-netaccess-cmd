@@ -1,3 +1,6 @@
+
+**/*.bak
+
 # Created by https://www.gitignore.io/api/vim,rust
 
 ### Rust ###

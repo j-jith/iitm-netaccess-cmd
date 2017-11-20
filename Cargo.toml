@@ -1,5 +1,5 @@
 [package]
-name = "iitm-netaccess-cmd"
+name = "netaccess"
 version = "0.1.0"
 authors = ["Jithin Jith <j.jith@outlook.com>"]
 
