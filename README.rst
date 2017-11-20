@@ -1,5 +1,5 @@
-netaccess
-=========
+netaccess |build-status|
+========================
 
 This command line application allows you to approve (or revoke) your machine's
 internet access at IIT Madras.
@@ -32,4 +32,8 @@ Options:
 +-----------+-------------------------+
 | -h --help | Shows the help message. |
 +-----------+-------------------------+
+
+
+.. |build-status| image:: https://img.shields.io/travis/j-jith/iitm-netaccess-cmd.svg
+                  :target: https://travis-ci.org/j-jith/iitm-netaccess-cmd
 
