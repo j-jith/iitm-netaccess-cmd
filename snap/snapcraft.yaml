@@ -6,13 +6,19 @@ description: |
     Madras' netacess website and approve/revoke the inernet access of your
     machine.
 
-confinement: devmode
+grade: devel
+confinement: strict
 
 parts:
     netacess:
         plugin: rust
         source: .
+        build-packages:
+            - pkg-config
+            - libssl-dev
 
 apps:
     netaccess:
         command: netaccess
+        plugs:
+            - network
