@@ -1,6 +1,6 @@
 [package]
 name = "netaccess"
-version = "0.1.0"
+version = "0.1.0-experimental"
 authors = ["Jithin Jith <j.jith@outlook.com>"]
 
 [dependencies]
