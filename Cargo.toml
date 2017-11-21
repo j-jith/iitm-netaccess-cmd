@@ -9,3 +9,6 @@ reqwest = "0.8.1"
 rand = "0.3.18"
 ipnetwork = "0.12.7"
 pnet = "0.20.0"
+
+[profile.release]
+lto = true
