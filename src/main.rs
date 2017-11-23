@@ -1,15 +1,15 @@
 // netacess: A command line tool to approve/revoke internet access at IIT Madras
 // Copyright (C) 2017 Jithin Jith
-// 
+//
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
 // Foundation, either version 3 of the License, or (at your option) any later
 // version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but WITHOUT ANY
 // WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 // PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -17,6 +17,9 @@ extern crate rpassword;
 extern crate reqwest;
 extern crate rand;
 extern crate pnet;
+
+#[macro_use]
+extern crate clap;
 
 use std::io::{self, Write};
 use std::fmt;
@@ -264,29 +267,25 @@ fn do_revoke(my_url: reqwest::Url, ip: Option<String>, my_headers: reqwest::head
     my_status
 }
 
-fn show_help()
+fn cmd_approve(login_url: reqwest::Url, approve_url: reqwest::Url)
 {
-    let help: &'static str = "
-Allows you to login to https://netaccess.iitm.ac.in and approve (or revoke)
-your machine's internet access at IIT Madras.
+    let (username, password) = get_credentials();
+    let duration = get_approval_duration();
+    let my_headers = create_headers();
+    if do_login(login_url, username, password, my_headers.clone())
+    {
+        do_approve(approve_url, duration, my_headers);
+    }
+}
 
-Usage:
-    netaccess
-    netaccess (approve | revoke)
-    netaccess revoke <ip address>
-    netaccess -h | --help
-
-Commands:
-    approve             Default command. Authenticates the current machine.
-    revoke <ip address> Revokes the internet access of <ip address> (if you
-                        have previously approved it). Revokes the internet
-                        access of current machine if no <ip address> is
-                        provided.
-
-Options:
-    -h --help           Shows this screen.
-    ";
-    println!("{}", help);
+fn cmd_revoke(login_url: reqwest::Url, revoke_url: reqwest::Url, ip: Option<String>)
+{
+    let (username, password) = get_credentials();
+    let my_headers = create_headers();
+    if do_login(login_url, username, password, my_headers.clone())
+    {
+        do_revoke(revoke_url, ip, my_headers);
+    }
 }
 
 fn main()
@@ -295,65 +294,21 @@ fn main()
     let approve_url = reqwest::Url::parse("https://netaccess.iitm.ac.in/account/approve/").unwrap();
     let revoke_url = reqwest::Url::parse("https://netaccess.iitm.ac.in/account/revoke/").unwrap();
 
-    let args: Vec<String> = std::env::args().collect();
+    let yaml = load_yaml!("cli.yml");
+    let matches = clap::App::from_yaml(yaml)
+        .version(crate_version!())
+        .author(crate_authors!())
+        .about(crate_description!())
+        .get_matches();
 
-    if args.len() < 2
+    match matches.subcommand()
     {
-        let (username, password) = get_credentials();
-        let duration = get_approval_duration();
-        let my_headers = create_headers();
-        if do_login(login_url, username, password, my_headers.clone())
+        ("approve", Some(_cmd)) => cmd_approve(login_url, approve_url),
+        ("revoke", Some(cmd)) =>
         {
-            do_approve(approve_url, duration, my_headers);
-        }
+            let ip = cmd.value_of("ip").map(String::from);
+            cmd_revoke(login_url, revoke_url, ip);
+        },
+        _ => cmd_approve(login_url, approve_url),
     }
-    else
-    {
-        let cmd = &args[1];
-
-        match cmd.as_str()
-        {
-            "approve" =>
-            {
-                let (username, password) = get_credentials();
-                let duration = get_approval_duration();
-                let my_headers = create_headers();
-                if do_login(login_url, username, password, my_headers.clone())
-                {
-                    do_approve(approve_url, duration, my_headers);
-                }
-            },
-
-            "revoke" =>
-            {
-                let (username, password) = get_credentials();
-                let my_headers = create_headers();
-                if do_login(login_url, username, password, my_headers.clone())
-                {
-                    if args.len() > 2
-                    {
-                        let my_ip = &args[2];
-                        do_revoke(revoke_url, Some((*my_ip).clone()), my_headers);
-                    }
-                    else
-                    {
-                        do_revoke(revoke_url, None, my_headers);
-                    }
-                }
-            },
-
-            "-h" | "--help" =>
-            {
-                show_help();
-            },
-
-            _ =>
-            {
-                println!("Unknown usage!\n");
-                show_help();
-            },
-
-        }
-    }
-
 }

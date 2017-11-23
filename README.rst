@@ -51,10 +51,11 @@ Commands:
 ~~~~~~~~~
 
 +---------------------+-----------------------------------------------------+
-| approve             | Default command. Authenticates the current machine. |
+| approve             | Default command. Approves internet acces of current |
+|                     | machine.                                            |
 +---------------------+-----------------------------------------------------+
-| revoke <ip address> | Revokes the internet access of <ip address> (if you |
-|                     | have previously approved it). Revokes the internet  |
+| revoke <ip address> | Revokes internet access of <ip address> (if you     |
+|                     | have previously approved it). Revokes internet      |
 |                     | access of current machine if no <ip address> is     |
 |                     | provided.                                           |
 +---------------------+-----------------------------------------------------+
@@ -62,9 +63,11 @@ Commands:
 Options:
 ~~~~~~~~
 
-+-----------+-------------------------+
-| -h --help | Shows the help message. |
-+-----------+-------------------------+
++---------------+---------------------------+
+| -h, --help    | Shows the help message.   |
++---------------+---------------------------+
+| -V, --version | Shows version information |
++---------------+---------------------------+
 
 
 .. |build-status| image:: https://api.travis-ci.org/j-jith/iitm-netaccess-cmd.svg?branch=master

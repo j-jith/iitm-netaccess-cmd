@@ -1,0 +1,10 @@
+name: netaccess
+subcommands:
+  - approve:
+      about: Approve internet access for this machine. Invoked by default if no subcommands are specified.
+  - revoke:
+      about: Revoke internet access of this or other previously approved machine(s)
+      args:
+        - ip:
+            help: IP address of machine to be revoked. Leave empty for current machine.
+            index: 1

@@ -1,7 +1,13 @@
 [package]
 name = "netaccess"
-version = "0.1.0-experimental"
+version = "0.1.0"
 authors = ["Jithin Jith <j.jith@outlook.com>"]
+description = """
+Allows you to login to https://netaccess.iitm.ac.in and approve/revoke
+your machine's internet access at IIT Madras.
+"""
+repository = "https://github.com/j-jith/iitm-netaccess-cmd/"
+licende = "GNU General Public License v3.0"
 
 [dependencies]
 rpassword = "2.0.0"
@@ -9,6 +15,7 @@ reqwest = "0.8.1"
 rand = "0.3.18"
 ipnetwork = "0.12.7"
 pnet = "0.20.0"
+clap = {version = "~2.27.0", features = ["yaml"]}
 
 [profile.release]
 lto = true
