@@ -28,14 +28,8 @@ distributions. After `setting up snap`_, you can install this application by
 
 .. code:: bash
 
-   $ sudo snap install --edge netaccess
+   $ sudo snap install netaccess
 
-Since the current release is experimental, it is only available in the *edge*
-channel.
-
-Even though the release is experimental, the application still does what it
-says on the tin. The snap package has been *strictly confined* and it only uses
-the network plug.
 
 Usage:
 ------
@@ -51,8 +45,8 @@ Commands:
 ~~~~~~~~~
 
 +---------------------+-----------------------------------------------------+
-| approve             | Default command. Approves internet acces of current |
-|                     | machine.                                            |
+| approve             | Default command. Approves internet access of        |
+|                     | current machine.                                    |
 +---------------------+-----------------------------------------------------+
 | revoke <ip address> | Revokes internet access of <ip address> (if you     |
 |                     | have previously approved it). Revokes internet      |

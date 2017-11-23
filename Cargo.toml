@@ -7,7 +7,7 @@ Allows you to login to https://netaccess.iitm.ac.in and approve/revoke
 your machine's internet access at IIT Madras.
 """
 repository = "https://github.com/j-jith/iitm-netaccess-cmd/"
-licende = "GNU General Public License v3.0"
+license = "GNU General Public License v3.0"
 
 [dependencies]
 rpassword = "2.0.0"
