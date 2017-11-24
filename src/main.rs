@@ -26,6 +26,7 @@ use std::fmt;
 use std::collections::HashMap;
 use rand::Rng;
 
+/*
 fn get_credentials() -> (String, String)
 {
     let mut username = String::new();
@@ -36,6 +37,22 @@ fn get_credentials() -> (String, String)
     let password = rpassword::prompt_password_stdout("Password: ").unwrap();
 
     (String::from(username.trim()), password)
+}
+*/
+
+fn get_username() -> String
+{
+    let mut username = String::new();
+    print!("Username: ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut username).expect("Failed to read line");
+    String::from(username.trim())
+}
+
+fn get_password() -> String
+{
+    let password = rpassword::prompt_password_stdout("Password: ").unwrap();
+    password
 }
 
 fn get_approval_duration() -> (char)
@@ -58,6 +75,26 @@ fn get_approval_duration() -> (char)
         {
             duration = duration_str.chars().nth(0).unwrap();
 
+            match duration
+            {
+                '1' =>
+                {
+                    println!("You have requested approval for one hour");
+                    break;
+                },
+                '2' =>
+                {
+                    println!("You have requested approval for one day");
+                    break;
+                },
+                _ =>
+                {
+                    println!("Enter a valid option");
+                    duration_str.clear();
+                },
+            }
+
+            /*
             if duration == '1'
             {
                 println!("You have requested approval for one hour");
@@ -73,6 +110,7 @@ fn get_approval_duration() -> (char)
                 println!("Enter a valid option");
                 duration_str.clear();
             }
+            */
         }
     }
 
@@ -267,10 +305,27 @@ fn do_revoke(my_url: reqwest::Url, ip: Option<String>, my_headers: reqwest::head
     my_status
 }
 
-fn cmd_approve(login_url: reqwest::Url, approve_url: reqwest::Url)
+fn cmd_approve(login_url: reqwest::Url, approve_url: reqwest::Url,
+               username: Option<String>, password: Option<String>, duration: Option<String>)
 {
-    let (username, password) = get_credentials();
-    let duration = get_approval_duration();
+    let username = match username
+    {
+        Some(u) => u,
+        _ => get_username(),
+    };
+
+    let password = match password
+    {
+        Some(p) => p,
+        _ => get_password(),
+    };
+
+    let duration = match duration
+    {
+        Some(d) => d.chars().nth(0).unwrap(),
+        _ => get_approval_duration(),
+    };
+
     let my_headers = create_headers();
     if do_login(login_url, username, password, my_headers.clone())
     {
@@ -278,9 +333,21 @@ fn cmd_approve(login_url: reqwest::Url, approve_url: reqwest::Url)
     }
 }
 
-fn cmd_revoke(login_url: reqwest::Url, revoke_url: reqwest::Url, ip: Option<String>)
+fn cmd_revoke(login_url: reqwest::Url, revoke_url: reqwest::Url, ip: Option<String>,
+              username: Option<String>, password: Option<String>)
 {
-    let (username, password) = get_credentials();
+    let username = match username
+    {
+        Some(u) => u,
+        _ => get_username(),
+    };
+
+    let password = match password
+    {
+        Some(p) => p,
+        _ => get_password(),
+    };
+
     let my_headers = create_headers();
     if do_login(login_url, username, password, my_headers.clone())
     {
@@ -301,14 +368,24 @@ fn main()
         .about(crate_description!())
         .get_matches();
 
+    let username = matches.value_of("username").map(String::from);
+    let password = matches.value_of("password").map(String::from);
+    let duration = matches.value_of("duration").map(String::from);
+
     match matches.subcommand()
     {
-        ("approve", Some(_cmd)) => cmd_approve(login_url, approve_url),
+        ("approve", Some(_cmd)) =>
+        {
+            cmd_approve(login_url, approve_url, username, password, duration);
+        },
         ("revoke", Some(cmd)) =>
         {
             let ip = cmd.value_of("ip").map(String::from);
-            cmd_revoke(login_url, revoke_url, ip);
+            cmd_revoke(login_url, revoke_url, ip, username, password);
         },
-        _ => cmd_approve(login_url, approve_url),
+        _ =>
+        {
+            cmd_approve(login_url, approve_url, username, password, duration);
+        }
     }
 }

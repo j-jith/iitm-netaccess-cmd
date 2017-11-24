@@ -1,5 +1,5 @@
 name: netaccess
-version: 0.1.0
+version: 0.2.0
 summary: Approve/revoke your machine's internet access at IIT Madras
 description: |
     netacess is a command line application which allows you to login to IIT

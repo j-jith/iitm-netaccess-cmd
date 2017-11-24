@@ -36,32 +36,94 @@ Usage:
 
 .. code:: bash
 
-    netaccess
-    netaccess (approve | revoke)
-    netaccess revoke <ip address>
-    netaccess -h | --help
+    netaccess [OPTIONS] [SUBCOMMAND]
 
-Commands:
-~~~~~~~~~
+Flags
+~~~~~
 
-+---------------------+-----------------------------------------------------+
-| approve             | Default command. Approves internet access of        |
-|                     | current machine.                                    |
-+---------------------+-----------------------------------------------------+
-| revoke <ip address> | Revokes internet access of <ip address> (if you     |
-|                     | have previously approved it). Revokes internet      |
-|                     | access of current machine if no <ip address> is     |
-|                     | provided.                                           |
-+---------------------+-----------------------------------------------------+
+.. code::
 
-Options:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+Options
+~~~~~~~
+
+.. code::
+
+    -d, --duration <duration>    (Optional) Duration of approval - 1 => one hour, 2 => one day. Omit to be prompted.
+    -p, --password <password>    (Optional) Password associated with your username. Omit to be prompted.
+    -u, --username <username>    (Optional) Username (your roll number) used for logging in to netaccess. Omit to be prompted.
+
+Subcommands
+~~~~~~~~~~~
+
+.. code::
+
+    approve    Approve internet access for this machine. Invoked by default if no subcommands are specified.
+    help       Prints this message or the help of the given subcommand(s)
+    revoke     Revoke internet access of this or other previously approved machine(s)
+
+Examples
 ~~~~~~~~
 
-+---------------+---------------------------+
-| -h, --help    | Shows the help message.   |
-+---------------+---------------------------+
-| -V, --version | Shows version information |
-+---------------+---------------------------+
+If you simply call ``netaccess`` without any subcommands/options, you
+will be prompted for all requisite data.
+
+.. code::
+
+   $ netaccess
+   Username: ddyyb000
+   Password:
+   Session duration (1: one hour (default), 2: one day): 2
+   You have requested approval for one day
+   Login successful
+   Succesfully approved
+
+Alternatively, you can use the options ``-u``, ``-p``, and ``-d`` to
+specify your username, password, and duration of approval,
+respectively, at the time of calling `netaccess`.
+
+.. code::
+
+   $ netaccess -u ddyyb000 -p my_password -d 2
+   Login successful
+   Succesfully approved
+
+The above command is equivalent to
+
+.. code::
+
+   $ netaccess approve -u ddyyb000 -p my_password -d 2
+
+``approve`` is the default subcommand. So you can omit it if you don't
+feel like typing a lot.
+
+To revoke internet access of your machine, you can simply type
+
+.. code::
+
+   $ netaccess revoke
+
+You will be prompted for your username and password. This will be
+followed by a prompt for your network interface. This is required to
+identify your IP address. If you are aware of your IP address, you can
+do the following
+
+.. code::
+
+   $ netaccess revoke <ip address>
+
+You can revoke internet access of any machine that you've previously
+approved. At the moment, ``revoke`` subcommand does not validate the
+IP address. So you have to be careful when enetring the IP
+address. ``revoke`` command can also accept username and password
+through ``-u`` and ``-p`` as follows
+
+.. code::
+
+   $ netaccess revoke <ip address> -u ddyyb000 -p my_password
+
 
 
 .. |build-status| image:: https://api.travis-ci.org/j-jith/iitm-netaccess-cmd.svg?branch=master

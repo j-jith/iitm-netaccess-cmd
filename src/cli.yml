@@ -1,4 +1,24 @@
 name: netaccess
+args:
+  - username:
+      short: u
+      long: username
+      global: true
+      takes_value: true
+      help: (Optional) Username (your roll number) used for logging in to netaccess. Omit to be prompted.
+  - password:
+      short: p
+      long: password
+      global: true
+      takes_value: true
+      help: (Optional) Password associated with your username. Omit to be prompted.
+  - duration:
+      short: d
+      long: duration
+      global: true
+      takes_value: true
+      possible_values: ['1', '2']
+      help: (Optional) Duration of approval - 1 => one hour, 2 => one day. Omit to be prompted.
 subcommands:
   - approve:
       about: Approve internet access for this machine. Invoked by default if no subcommands are specified.

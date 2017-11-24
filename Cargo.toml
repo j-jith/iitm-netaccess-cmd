@@ -1,6 +1,6 @@
 [package]
 name = "netaccess"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Jithin Jith <j.jith@outlook.com>"]
 description = """
 Allows you to login to https://netaccess.iitm.ac.in and approve/revoke
