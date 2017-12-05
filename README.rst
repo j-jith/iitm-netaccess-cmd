@@ -99,6 +99,12 @@ The above command is equivalent to
 ``approve`` is the default subcommand. So you can omit it if you don't
 feel like typing a lot.
 
+.. caution::
+
+    Please note that it is not recommended to provide your password in plain text
+    using the ``-p`` option. A password manager should be used for this purpose.
+    Please see `Using the password option`_.
+
 To revoke internet access of your machine, you can simply type
 
 .. code::
@@ -116,7 +122,7 @@ do the following
 
 You can revoke internet access of any machine that you've previously
 approved. At the moment, ``revoke`` subcommand does not validate the
-IP address. So you have to be careful when enetring the IP
+IP address. So you have to be careful when entering the IP
 address. ``revoke`` command can also accept username and password
 through ``-u`` and ``-p`` as follows
 
@@ -124,6 +130,25 @@ through ``-u`` and ``-p`` as follows
 
    $ netaccess revoke <ip address> -u ddyyb000 -p my_password
 
+Using the password option
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is not recommended to provide your password to the ``-p`` option in plain
+text for the sake of security. Instead, a password manager like pass_ should be
+used. In ``pass``, one can create an entry for netaccess by
+
+.. code::
+
+   $ pass insert netaccess
+
+Then, the password can be provided to ``netaccess`` as follows.
+
+.. code::
+
+   $ netaccess approve -u ddyyb000 -d 2 -p `pass netaccess`
+
+Of course, if you don't want to store the password on your machine, you can
+simply omit the ``-p`` option, and you'll be prompted for your password.
 
 
 .. |build-status| image:: https://api.travis-ci.org/j-jith/iitm-netaccess-cmd.svg?branch=master
@@ -139,3 +164,5 @@ through ``-u`` and ``-p`` as follows
 .. _snap: https://snapcraft.io/
 
 .. _setting up snap: https://docs.snapcraft.io/core/install
+
+.. _pass: https://www.passwordstore.org/
