@@ -14,7 +14,7 @@ rpassword = "2.0.0"
 reqwest = "0.8.1"
 rand = "0.3.18"
 ipnetwork = "0.12.7"
-pnet = "0.20.0"
+pnet = "0.21.0"
 clap = {version = "~2.27.0", features = ["yaml"]}
 
 [profile.release]
